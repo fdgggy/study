@@ -10,7 +10,7 @@ int main() {
 
     //int socket(int domain, int type, int protocol);
     //创建一个通信端点并返回一个引用该端点的文件描述符
-    //@domain(通信域),用于通信的协议簇
+    //@domain(协议域),用于通信的协议簇
     //AF_UNIX      Local communication 
     //AF_INET      IPv4 Internet protocols
     //AF_INET6     IPv6 Internet protocols
@@ -20,42 +20,34 @@ int main() {
     //@protocol 特定协议，只有一个协议指定填0
     listenfd = socket(AF_INET, SOCK_STREAM, 0);  //创建套接字
     if (listenfd == -1) {
-        printf("create socket failed!");
+        printf("create socket failed!\n");
         return 0;
     }
-    // printf("create socket success,aaa listenfd:%d\n", listenfd);
-    printf("00000");
-
+    printf("create socket success,listenfd:%d\n", listenfd);
     //int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen); 为套接字分配名称
     //套接字创建后保存在一个名字空间但并没有地址分配给他，bind通过addr参数分配地址给sockfd所引用的套接字
 
-    printf("1111111");
-
     struct sockaddr_in servaddr; //地址格式描述
     memset(&servaddr, 0, sizeof(struct sockaddr_in));
-    printf("2222222");
-
     servaddr.sin_family = AF_INET;  //IPV4
-    servaddr.sin_port = htons(1234);
+    servaddr.sin_port = htons(123);
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);//
 
-    printf("bind start");
-
     if (bind(listenfd, (struct sockaddr *)&servaddr, sizeof(struct sockaddr_in)) == -1) {
-        printf("bind socket addr failed!");
+        printf("bind socket addr failed!\n");
         return 0;
     }
-    printf("bind over");
+    printf("bind success\n");
 
     //监听套接字上的链接
     //@sockfd 引用SOCK_STREAM/SOCK_SEQPACKET类型套接字的文件描述符
     //@backlog 挂起连接的队列的最大长度, ***ddos攻击有关
     //int listen(int sockfd, int backlog);
-    if (listen(listenfd, 128) == -1) {
-        printf("listen socket failed!");
+    if (listen(listenfd, SOMAXCONN) == -1) {  //默认是128，队列长度[8,128]
+        printf("listen socket failed!\n");
         return 0;
     }
-    printf("listen over");
+    printf("listen success\n");
 
     //接受套接字上的链接
     //@sockfd 监听套接字，通过socket创建，bind到本地地址，listen监听的sockfd
@@ -71,14 +63,32 @@ int main() {
 	socklen_t clilen;
 	clilen = sizeof(cliaddr);
 
-    printf("accept ready");
-    clientfd = accept(listenfd, (struct sockaddr *)&cliaddr, &clilen);
-    if (clientfd == -1) {
-        printf("accept socket failed!");
-        return 0;
+    printf("accept ready\n");
+    for (;;) {
+        //循环去全连接队列中获取已成功的连接
+        clientfd = accept(listenfd, (struct sockaddr *)&cliaddr, &clilen);
+        if (clientfd == -1) {
+            printf("accept socket failed!\n");
+            continue;
+        }
+        printf("accept success, clientfd:%d\n", clientfd);
+
+        if (fork() == 0) {
+            //从一个socket接收消息,如果sockfd无消息，会一直等待，除非socket是非阻塞
+            //ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+            //返回值是接收到的字节数目
+            for (;;) {
+                char buff[1024];
+                memset(buff, '\0', sizeof(buff));
+                int res = read(clientfd, buff, 1024);
+                if (res == -1) {
+                    printf("recv error\n");
+                    continue;
+                }
+                printf("recv message:%s\n", buff);
+            }
+        }
     }
 
-    printf("accept success, clientfd:%d\n", clientfd);
-    
     return 0;
 }
