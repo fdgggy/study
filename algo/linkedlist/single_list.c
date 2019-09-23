@@ -160,21 +160,34 @@ struct single_list *middle(struct single_list_head *head) {
     return p1;
 }
 
-//删除倒数第n个元素
-//A->B->C
+//删除倒数第n个元素, 从1开始计数，不是倒数第0个
+//A->B->C->D->E->F
 void delback_index(struct single_list_head *head, int n) {
     struct single_list* p1 = head->head;
     struct single_list* p2 = head->head;
-
-    int count = 0;
-    while(--n != 0) {
-        p1 = p1->next;
-    }
-    if (!p1) {
-        head->head = p1->next;
+    if (n < 0) {
+        printf("delback_index failed, invalid index\n");
         return;
     }
 
+    while(n-- != 0) {
+        if (!p1) {
+            printf("delback_index failed, invalid index\n");
+            return;
+        }
+        p1 = p1->next;
+    }
+    if (!p1) {
+        head->head = head->head->next;
+        return;
+    }
+
+    while(p1->next) {
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+
+    p2->next = p2->next->next;
 }
 
 int main() {
@@ -218,7 +231,7 @@ int main() {
 
     printf("del befor\n");
     dump(&head);
-    delback_index(&head, 6);
+    delback_index(&head, 4);
     printf("del after\n");
     dump(&head);
 
