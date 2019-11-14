@@ -160,22 +160,30 @@ struct single_list *middle(struct single_list_head *head) {
     return p1;
 }
 
-//删除倒数第n个元素
-//A->B->C
+//删除倒数第n个元素, 从1开始计数，不是倒数第0个
+//A->B->C->D->E->F
 void delback_index(struct single_list_head *head, int n) {
     struct single_list* p1 = head->head;
     struct single_list* p2 = head->head;
+    if (n < 0) {
+        printf("delback_index failed, invalid index\n");
+        return;
+    }
 
-    int count = 0;
-    while(--n != 0) {
+    while(n-- != 0) {
+        if (!p1) {
+            printf("delback_index failed, invalid index\n");
+            return;
+        }
         p1 = p1->next;
     }
     if (!p1) {
-        head->head = p1->next;
+        head->head = head->head->next;
         return;
     }
 }
 
+<<<<<<< HEAD
 void merge(struct single_list *node, struct single_list_head* list1, struct single_list_head* list2) {
     struct single_list* prev = node;
     while (list1->head != NULL && list2->head != NULL) {
@@ -189,6 +197,14 @@ void merge(struct single_list *node, struct single_list_head* list1, struct sing
         prev = prev->next;
     }
     prev->next = list1->head == NULL ? list2->head : list1->head;
+=======
+    while(p1->next) {
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+
+    p2->next = p2->next->next;
+>>>>>>> 9cf81dda31c78772f22ecc2e0caf424340aa3ea9
 }
 
 int main() {
@@ -232,7 +248,11 @@ int main() {
 
     printf("del befor\n");
     dump(&head);
+<<<<<<< HEAD
     delback_index(&head, 3);
+=======
+    delback_index(&head, 4);
+>>>>>>> 9cf81dda31c78772f22ecc2e0caf424340aa3ea9
     printf("del after\n");
     dump(&head);
 
