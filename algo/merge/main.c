@@ -35,6 +35,7 @@ void merge(int a[], int left, int middle, int right) {
     }
 
     memcpy(a+left, temp, (right-left+1)*sizeof(int));
+    free(temp);
 }
 
 void merge_sort(int a[], int left, int right) {
