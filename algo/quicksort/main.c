@@ -1,6 +1,15 @@
+/*
+快速排序
+递推公式:
+quick_sort(q...r)=quick_sort(p...q-1)+quick_sort(q+1, r)
+终止条件：p >= r
+
+原理：选择p-r任意一个数据作为pivot(分区点),遍历p-r间的数据，小于pivot的放在左边，大于pivot的放到右边，将pivot放到中间。
+      递归排序下标从p到q-1之间的数据和小标从q+1到r之间的数据，直到区间小于1,说明所有数据都有序。
+ */
 #include <stdio.h>
 
-void print_array(int a[], size) {
+void print_array(int a[], int size) {
     for (int i = 0; i < size; i++) {
         printf("%d ", a[i]);
     }
