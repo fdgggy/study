@@ -174,7 +174,21 @@ void delback_index(struct single_list_head *head, int n) {
         head->head = p1->next;
         return;
     }
+}
 
+void merge(struct single_list *node, struct single_list_head* list1, struct single_list_head* list2) {
+    struct single_list* prev = node;
+    while (list1->head != NULL && list2->head != NULL) {
+        if (list1->head->val <= list2->head->val) {
+            prev->next = list1->head;
+            list1->head = list1->head->next;
+        }else {
+            prev->next = list2->head;
+            list2->head = list2->head->next;
+        }
+        prev = prev->next;
+    }
+    prev->next = list1->head == NULL ? list2->head : list1->head;
 }
 
 int main() {
@@ -218,9 +232,34 @@ int main() {
 
     printf("del befor\n");
     dump(&head);
-    delback_index(&head, 6);
+    delback_index(&head, 3);
     printf("del after\n");
     dump(&head);
+
+    struct single_list_head head1 = {};
+    struct single_list lists1 = {};
+    lists1.val = 3;
+    insert_head(&head1, &lists1);
+
+    struct single_list lists2 = {};
+    lists2.val = 1;
+    insert_head(&head1, &lists2);
+
+    struct single_list_head head2 = {};
+    struct single_list lists3 = {};
+    lists3.val = 4;
+    insert_head(&head2, &lists3);
+
+    struct single_list lists4 = {};
+    lists4.val = 2;
+    insert_head(&head2, &lists4);
+
+    printf("merge\n");
+    struct single_list lists5 = {};
+    merge(&lists5, &head1, &head2);
+    for (struct single_list *temp = lists5.next; temp != NULL; temp = temp->next) {
+        printf("val :%d\n", temp->val);
+    }
 
     return 0;
 }
