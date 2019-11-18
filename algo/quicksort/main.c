@@ -18,12 +18,12 @@ void print_array(int a[], int size) {
 }
 
 int sort(int a[], int low, int high) {
-    int pivot = a[low];
+    int pivot = a[low];//选最low点为基准
     while(low != high) {
-        while (low != high && a[high] >= pivot) {
+        while (low != high && a[high] >= pivot) {//本来就是有序的, low=high
             high--;
         }
-        if (low < high) {
+        if (low < high) {//本来就是有序的, low=high
             a[low] = a[high];
         }
 
