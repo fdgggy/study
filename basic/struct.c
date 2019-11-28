@@ -40,7 +40,7 @@ pointer           4            8
 #include <stdio.h>
 
 typedef unsigned char BYTE;
-typedef enum {
+typedef enum {  //枚举类型的大小为sizeof(int)
     RED=0x01, 
     BLUE, 
     GREEN, 
@@ -60,11 +60,57 @@ typedef struct {
     BYTE seat_num;//16-17
 }Mycar;
 
+typedef struct {  //7
+    BYTE ok;
+    BYTE name[6];
+}test1;
+
+#pragma pack(4)  //12
+typedef struct {  
+    int ok;
+    BYTE name[6]; //第一个元素对齐了，后面元素自然对齐了
+}test2;
+
+// #pragma pack(4)  //16
+#pragma pack(2)  //12
+typedef struct {  
+    BYTE ok;
+    test2 t2; //test2的pragma是2时就是12，是4时就是14
+}test3;
+
+#pragma pack(8)  //24
+// #pragma pack(4)  //20
+typedef struct {
+    char c;
+    double d;
+    char ch[6];
+}R;
+
+#pragma pack(8)  //32
+typedef struct {
+    int i;
+    R r;  //看做整体24来看
+}T;
+
+#pragma pack(8)  //40
+typedef struct {
+    int *i;
+    T t;  //看做整体24来看
+}U;
+
 int main() {
     Mycar car, *acar;
     int a= 3;
     int *ab = &a;
     printf("car:%ld a:%ld ab:%ld\n", sizeof(car), sizeof(acar), sizeof(ab));
+    
+    printf("t1:%ld\n", sizeof(test1));
+    printf("t2:%ld\n", sizeof(test2));
+    printf("t3:%ld\n", sizeof(test3));
+    printf("R:%ld\n", sizeof(R));
+    printf("T:%ld\n", sizeof(T));
+    printf("U:%ld\n", sizeof(U));
+
 
     return 0;
 }
