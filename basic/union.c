@@ -11,8 +11,14 @@
 
 typedef union {
     int i;
-    char ch[sizeof(int)];
+    // char ch[sizeof(int)];
+    char ch[18];
 }CHI;
+
+typedef struct {  //union算大小也是按照对齐补齐策略
+    double i;
+    CHI j;  //计算大小时按照整个占用空间算
+}Test;
 
 int main() {
     CHI chi;
@@ -21,6 +27,7 @@ int main() {
         printf("%x", chi.ch[i]);//0x34120000  x86架构小端
     }
     printf("\nchi:%ld\n", sizeof(CHI));
+    printf("test:%ld\n", sizeof(Test));
 
     return 0;
 }
