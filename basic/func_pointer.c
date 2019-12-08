@@ -49,6 +49,20 @@ int calc(int a, int b, int (*f)(int a, int b)) {
 typedef void (*pfv)();
 typedef void (*pf_pfv)(pfv);
 
+typedef int (*calclate)(int a, int b);
+
+int add_ex(int a, int b) {
+    return a+b;
+}
+
+int sub_ex(int a, int b) {
+    return a-b;
+}
+
+int calc_num(int a, int b, calclate func) {
+    return func(a, b);
+}
+
 int main() {
     //最原始概念，但不会这样用
     int a = 3;
@@ -63,5 +77,11 @@ int main() {
     
     pf_pfv ap[10];
     
+    res = calc_num(1, 2, add_ex);
+    printf("calc_num add res:%d\n", res);
+
+    res = calc_num(1, 2, sub_ex);
+    printf("calc_num sub res:%d\n", res);
+
     return 0;
 }
