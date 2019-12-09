@@ -123,8 +123,45 @@ bs_node *search(bs_node *root, int data) {
     return NULL;
 }
 
-void delete(bs_tree *tree, data) {
+void delete(bs_tree *tree, int data) {
+    if (tree == NULL) {
+        printf("delete failed, tree is NULL\n");
+        return;
+    }
 
+    bs_node **pre_temp = NULL;
+    bs_node *temp = tree->root;
+    while (temp != NULL) {
+        int res = tree->cp(temp->data, data);
+        if (res == 0) {
+            if (pre_temp == NULL) {
+                if (temp->rchild == NULL) {
+                    tree->root = temp->lchild;
+                    free(temp);
+                }else {
+
+                }
+            }else {
+                if (temp->rchild == NULL) {
+                    *pre_temp = temp->lchild;
+                    free(temp);
+                }else {
+                    bs_node *ltemp = temp->rchild->lchild;
+
+
+                    temp->rchild->lchild = temp->lchild;
+                    *pre_temp = temp->rchild;
+                    free(temp);
+                }
+            }
+        }else if (res == 1) {
+            pre_temp = &temp->lchild;
+            temp = temp->lchild;
+        }else if (res == 2) {
+            pre_temp = &temp->lchild;
+            temp = temp->rchild;
+        }
+    }
 }
 
 int main() {
