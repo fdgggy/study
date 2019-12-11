@@ -102,6 +102,15 @@ void dump_pre_order(bs_node *tree) {
     dump_pre_order(tree->rchild);
 }
 
+void dump_in_order(bs_node *tree) {
+    if (tree == NULL) {
+        return;
+    }
+    dump_in_order(tree->lchild);
+    printf("data:%d\n", tree->data);
+    dump_in_order(tree->rchild);
+}
+
 //也可以用非递归
 bs_node *search(bs_node *root, int data) {
     if (root == NULL) {
@@ -125,7 +134,7 @@ bs_node *search(bs_node *root, int data) {
 /*
 1.没有左右子节点，直接删除
 2.存在左或右节点，删除后移动子节点
-3.同时存在左右节点，需要通过后继节点交换后转换为前2种情况
+3.同时存在左右节点，需要通过后继节点交换后转换为前2种情况，后继节点为右子树最左边的数
 */
 void delete(bs_tree *tree, int data) {
     if (tree == NULL) {
@@ -188,11 +197,14 @@ void delete(bs_tree *tree, int data) {
 int main() {
     bs_tree* bt = create_tree(comp_int);
     insert(bt, 5);
-    insert(bt, 3);
-    insert(bt, 6);
+    insert(bt, 1);
+    insert(bt, 2);
     insert(bt, 8);
+    insert(bt, 7);
+    insert(bt, 9);
+    insert(bt, 10);
 
-    dump_pre_order(bt->root);
+    dump_in_order(bt->root);
 
     bs_node *node = search(bt->root, 60);
     if (node == NULL) {
@@ -200,6 +212,15 @@ int main() {
     }else {
         printf("node:%d\n", node->data);
     }
+
+    // delete(bt, 5);  //删除root
+    // delete(bt, 8);  //删除带2个节点的节点
+    delete(bt, 1);     //删除带1个节点的节点
+    // delete(bt, 7);  //删除没有节点的节点
+
+
+    printf("delete tree\n");
+    dump_pre_order(bt->root);
 
     destroy_tree(bt);
 
