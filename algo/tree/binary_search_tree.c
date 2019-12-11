@@ -1,3 +1,14 @@
+/*
+二叉搜索树：一颗二叉树，可以为空；不为空，满足：
+1.非空左子树的所有键值小于其根节点的键值
+2.非空右子树的所有键值大于其根节点的键值
+3.左右子树都是二叉搜索树
+find
+findmin
+findmax
+insert
+delete
+ */
 #include <stdio.h>
 #include<stdlib.h>
 
@@ -119,22 +130,16 @@ bs_node *search(bs_node *root, int data) {
 
     if (root->data == data) {
         return root;
-    }
-
-    if (root->data > data) {
+    }else if (root->data > data) {
         return search(root->lchild, data);
-    }
-
-    if (root->data < data) {
+    }else if (root->data < data) {
         return search(root->rchild, data);
     }
-
-    return NULL;
 }
 /*
 1.没有左右子节点，直接删除
 2.存在左或右节点，删除后移动子节点
-3.同时存在左右节点，需要通过后继节点交换后转换为前2种情况，后继节点为右子树最左边的数
+3.同时存在左右节点，需要通过后继节点交换后转换为前2种情况，后继节点为1.右子树最小值  2.左子树最大值
 */
 void delete(bs_tree *tree, int data) {
     if (tree == NULL) {
