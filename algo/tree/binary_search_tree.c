@@ -122,46 +122,67 @@ bs_node *search(bs_node *root, int data) {
 
     return NULL;
 }
-
+/*
+1.没有左右子节点，直接删除
+2.存在左或右节点，删除后移动子节点
+3.同时存在左右节点，需要通过后继节点交换后转换为前2种情况
+*/
 void delete(bs_tree *tree, int data) {
     if (tree == NULL) {
         printf("delete failed, tree is NULL\n");
         return;
     }
 
-    bs_node **pre_temp = NULL;
     bs_node *temp = tree->root;
+    bs_node *p_temp = NULL; //记录temp的父节点
+
     while (temp != NULL) {
         int res = tree->cp(temp->data, data);
         if (res == 0) {
-            if (pre_temp == NULL) {
-                if (temp->rchild == NULL) {
-                    tree->root = temp->lchild;
-                    free(temp);
-                }else {
-
-                }
-            }else {
-                if (temp->rchild == NULL) {
-                    *pre_temp = temp->lchild;
-                    free(temp);
-                }else {
-                    bs_node *ltemp = temp->rchild->lchild;
-
-
-                    temp->rchild->lchild = temp->lchild;
-                    *pre_temp = temp->rchild;
-                    free(temp);
-                }
-            }
+            break;
         }else if (res == 1) {
-            pre_temp = &temp->lchild;
+            p_temp = temp;
             temp = temp->lchild;
         }else if (res == 2) {
-            pre_temp = &temp->lchild;
+            p_temp = temp;
             temp = temp->rchild;
         }
     }
+    if (temp == NULL) {
+        printf("delete failed not find:%d\n", data);
+        return;
+    }
+    if (temp->lchild != NULL && temp->rchild != NULL) {
+        bs_node *min_temp = temp->rchild;
+        p_temp = temp;
+        while (min_temp->lchild != NULL)
+        {
+            p_temp = min_temp;
+            min_temp = min_temp->lchild;
+        }
+        temp->data = min_temp->data;
+        temp = min_temp;
+    }
+
+    bs_node *child = NULL;
+    if (temp->lchild != NULL) {
+        child = temp->lchild;
+    }else if (temp->rchild != NULL) {
+        child = temp->rchild;
+    }else {
+        child = NULL;
+    }
+
+    if (p_temp == NULL) {
+        tree->root = child;
+    }else if (temp == p_temp->lchild) {
+        p_temp->lchild = child;
+    }else {
+        p_temp->rchild = child;
+    }
+
+    tree->size--;
+    free(temp);
 }
 
 int main() {
