@@ -1,0 +1,62 @@
+memcpy额memmove都是c语言中的库函数，在头文件string.h中，作用都是拷贝一定长度的内存内容
+
+void *memcpy(void *dst, const void *src, size_t count);
+void *memmove(void *dst, const void *src, size_t count); 
+
+区别：当dst和src内存区域发生局部重叠的时候，memmove保证拷贝的结果是正确的，memcpy不保证,所以在实际使用中mommove比momcpy更加安全。
+
+            |<----------count----------| 
+|--------------------------------------|
+  |         |                            
+ dst       src
+
+
+  |<----------count----------| 
+|-----------------------------|
+  |         |                            
+ src       dst
+
+第一种情况下，重叠区域不会出现问题
+第二种情况下，会有问题，src的部分字节会被拷贝后的dst覆盖
+
+源码题目注意：
+1.确定函数原型;
+2.判断参数合法性;
+3.逻辑实现（考虑各种情况，统称逻辑实现）;
+4.错误处理。
+void  *memcpy(void *dest, const void *src, size_t count)
+{
+    assert(dest != NULL || src != NULL);
+    char *tmp = (char *)dest;
+    char *p = (char *)src;
+    while (count--)
+    {
+        *tmp++ = *p++;
+    }
+    return dest;
+}
+
+
+void *memmove(void *dest, const void *src, size_t count)
+{
+    assert(dest != NULL || src != NULL)
+    if (dst < src)
+    {
+        char *p = (char *)dest;
+        char *q = (char *)src;
+        while (count--)
+        {
+            *p++ = *q++;
+        }
+    }
+    else
+    {
+        char *p = (char *)dest + count;
+        char *q = (char *)src + count;
+        while (count--)
+        {
+            *--p = *--q;
+        }
+    }
+    return dest;
+}
