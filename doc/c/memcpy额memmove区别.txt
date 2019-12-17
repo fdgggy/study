@@ -26,7 +26,7 @@ void *memmove(void *dst, const void *src, size_t count);
 4.错误处理。
 void  *memcpy(void *dest, const void *src, size_t count)
 {
-    assert(dest != NULL || src != NULL);
+    assert(dest != NULL && src != NULL);
     char *tmp = (char *)dest;
     char *p = (char *)src;
     while (count--)
@@ -39,7 +39,7 @@ void  *memcpy(void *dest, const void *src, size_t count)
 
 void *memmove(void *dest, const void *src, size_t count)
 {
-    assert(dest != NULL || src != NULL)
+    assert(dest != NULL && src != NULL)
     if (dst < src)
     {
         char *p = (char *)dest;
