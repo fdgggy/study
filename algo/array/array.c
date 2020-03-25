@@ -32,7 +32,7 @@ void alloc(struct array *array) {
         return;
     }
 
-    memset(array->arr, 0, sizeof(int)*40);
+    memset(array->arr, 0, sizeof(int)*10);
 }
 
 //有序插入
@@ -72,6 +72,7 @@ int delete(struct array *array, int index) {
 
     memmove(&array->arr[index], &array->arr[index+1], (array->used-index-1)*sizeof(int)); 
     array->used--;
+    return 0;
 }
 
 int search(struct array *array, int value) {
