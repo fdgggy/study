@@ -2,6 +2,17 @@
 #include <time.h>
 #include <stdbool.h>
 #include "../../common/util.h"
+/*
+散列设计：
+1.支持快速查询，插入，删除操作
+2.内存占用合理
+3.性能稳定，极端情况下，散列表性能不会退化到无法接受的情况。如一个slot里很多元素
+思路：
+1.设计一个合适的散列函数
+2.定义装在因子的阀值，超过阀值，动态扩容策略。 
+3.选择合适的散列冲突解决办法,线性查找或链表法。
+skynet里的netpack对接收到非完整的包处理，一个fd作为key，计算出hash值，插入hash槽中，查找时，遍历槽中属于fd的结点即可
+*/
 
 #define HASH_SHIFT 4
 #define HASH_SIZE (1 << HASH_SHIFT)
