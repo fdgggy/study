@@ -104,7 +104,7 @@ Node* find(LRUCache *cache, int key) {
     }
     int pos = hash_func(cache, key);
     Node* temp = cache->hashTable[pos]->hnext;
-    if (temp) {
+    while (temp) {
         if (temp->key == key) {
             return temp;
         }
