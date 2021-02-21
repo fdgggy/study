@@ -22,7 +22,7 @@
 3.选择合适的散列冲突解决办法,线性查找或链表法(jdk1.8和go中都是当链表长度超过8时，链表转为红黑树，红黑树小于8时，再转为链表)。
 
 skynet里的netpack
-skynet里的netpack对接收到非完整的包处理，一个fd作为key，计算出hash值，插入hash槽中，查找时，遍历槽中属于fd的结点即可
+skynet里的netpack对接收到非完整的包处理，一个fd作为key，计算出hash值，插入hash数组槽中，头插法，查找时，遍历槽中属于fd的结点即可
 
 Java的hashmap举例
 1.初始化大小默认是16
