@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{68E3F8E2-1CE7-BBA0-99BB-E992B1F65EFA}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/AstarPathfindingProject/Editor/AstarPathEditor.cs">
+    <Files>
+      <File FileName="Assets/AstarPathfindingProject/Core/AstarPath.cs" Line="1588" Column="32" />
+      <File FileName="Assets/AstarPathfindingProject/Editor/AstarPathEditor.cs" Line="631" Column="5" />
+      <File FileName="Assets/AstarPathfindingProject/Core/AstarData.cs" Line="343" Column="17" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="rogue" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="AstarPathfindingProject" expanded="True">
+                <Node name="Core" expanded="True" />
+                <Node name="Editor" expanded="True">
+                  <Node name="AstarPathEditor.cs" selected="True" />
+                </Node>
+              </Node>
+              <Node name="Scripts" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="4972f71d-e091-4ea0-a436-ee7b41f342c0" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/zhoujian/study/unity/Roguelike/rogue/Assets/AstarPathfindingProject/Core/AstarPath.cs" relfile="Assets/AstarPathfindingProject/Core/AstarPath.cs" line="1588" column="1" />
+      <Breakpoint file="/Users/zhoujian/study/unity/Roguelike/rogue/Assets/AstarPathfindingProject/Editor/AstarPathEditor.cs" relfile="Assets/AstarPathfindingProject/Editor/AstarPathEditor.cs" line="1355" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
